@@ -60,6 +60,12 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    - name: Apply patches
+      run: |
+        cp -rf patches/. openwrt/
+        cd openwrt
+        git am -s < immortalwrt_add_h3c-nx30pro.patch
+
     - name: Load custom feeds
       run: |
         [ -e $FEEDS_CONF ] && mv $FEEDS_CONF openwrt/feeds.conf.default
